@@ -1,7 +1,8 @@
 # watchlist-backend
+
 > One of the api for [watchlist](https://github.com/aghontpi/watchlist)
 
-Backend source for [watchlist](https://github.com/aghontpi/watchlist) 
+Backend source for [watchlist](https://github.com/aghontpi/watchlist)
 
 url: [https://dev.bluepie.in/watchlistapi](https://dev.bluepie.in/watchlistapi/)
 
@@ -10,10 +11,11 @@ url: [https://dev.bluepie.in/watchlistapi](https://dev.bluepie.in/watchlistapi/)
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 ```
+
 ## update node to latest version
 
 ```bash
-nvm install node 
+nvm install node
 ```
 
 ## instal redis
@@ -30,16 +32,17 @@ systemctl start redis
 
 redis-cli
 ```
+
 ## install nginx
 
-`bash
-apt or yum
-`
+`bash apt or yum `
+
 ## install yarn
 
 ```bash
 npm install yarn --g
 ```
+
 ## build
 
 ```bash
@@ -53,7 +56,8 @@ yarn add pm2 -G
 
 yarn pm2 start build/server.js
 ```
-##  configure nginx
+
+## configure nginx
 
 - location
 - ssl
