@@ -1,0 +1,27 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: build and testcases
+    runs-on: ubuntu-latest
+    env: 
+      DBURI: ${{secrets.DBURI}}
+      SYNC_DATE: ${{secrets.SYNC_DATE}}
+      COLLECTION: ${{secrets.COLLECTION}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install 
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: build 
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: test
