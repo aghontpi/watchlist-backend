@@ -5,6 +5,7 @@ Backend source for [watchlist](https://github.com/aghontpi/watchlist)
 
 url: [https://dev.bluepie.in/watchlistapi](https://dev.bluepie.in/watchlistapi/)
 
+[![build & test-cases](https://github.com/aghontpi/watchlist-backend/workflows/Node.js%20CI/badge.svg)](https://github.com/aghontpi/watchlist-backend/actions)
 ## install nvm
 
 ```bash
@@ -45,6 +46,11 @@ npm install yarn --g
 ```bash
 yarn build
 ```
+## test
+
+```bash
+yarn test
+```
 
 ## deploy to production
 
@@ -63,10 +69,14 @@ yarn pm2 start build/server.js
 
 - typescript
 - express
+- jest
+- supertest
 - handlebars
-- mongodb
 - node
-- redis
 - pm2
+- mongodb
+- redis
+- nginx
+- github actions
 
 preferred mongoclient-native-driver for perfomance over mongoose odm.
