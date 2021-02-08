@@ -5,7 +5,7 @@ Backend source for [watchlist](https://github.com/aghontpi/watchlist)
 
 url: [https://dev.bluepie.in/watchlistapi](https://dev.bluepie.in/watchlistapi/)
 
-[![build & test-cases](https://github.com/aghontpi/watchlist-backend/workflows/Node.js%20CI/badge.svg)](https://github.com/aghontpi/watchlist-backend/actions)
+[![build & test-cases](https://github.com/aghontpi/watchlist-backend/workflows/build%20&%20test-cases/badge.svg)](https://github.com/aghontpi/watchlist-backend/actions)
 ## install nvm
 
 ```bash
