@@ -4,7 +4,9 @@ import log from 'morgan';
 import winston from 'winston';
 import { createStream } from 'rotating-file-stream';
 
-const MODE = process.env.NODE_ENV;
+import { ENVIRONMENT } from './secrets';
+
+const MODE = ENVIRONMENT;
 const LOG_PATH = '../logs/';
 const accesslog = () => {
   log(MODE !== 'production' ? 'common' : 'combined', {
