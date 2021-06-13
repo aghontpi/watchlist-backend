@@ -19,9 +19,10 @@
 | **src/util/**       | helpers - logging, cache, ratelimit, database                                                                                             |
 | **test**            | Test cases to perform before taking a new build, is also used in combination with github actions before merging the code to master branch |
 | **views**           | Template files for rendering dynamic content to client side, since this is a api server, there is not much there in this folder.          |
-| **.env.example**    | repos.                                                                                                                                    |
+| **.env.example**    | Project secrets, usernames, passwords, etc.                                                                                               |
 | **.github**         | CI - github actions - run test cases on pull request and report if it is safe to merge.                                                   |
-| **cache**           | Cache folder for responses that do not need to connect to database all the time.                                                          
+| **.vscode**         | vs-code workspace configuration, higly recommend using vs-code (install prettier es-lint plugin)                                          |
+| **cache**           | Cache folder for responses that do not need to connect to database all the time.                                                          |
 
 ## Manual
 
@@ -54,7 +55,7 @@ redis-cli
 
 ### install nginx
 
-```bash 
+```bash
 apt or yum install nginx
 ```
 
@@ -69,6 +70,7 @@ npm install yarn --g
 ```bash
 yarn build
 ```
+
 ### test
 
 ```bash
@@ -93,6 +95,7 @@ yarn pm2 start build/server.js
 
 - typescript
 - express
+- jwt
 - jest
 - supertest
 - handlebars

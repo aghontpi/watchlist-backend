@@ -5,8 +5,9 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import lusca from 'lusca';
+import jwt from 'express-jwt';
 
-import { PORT } from './util/secrets';
+import { JWT_SECRET, PORT } from './util/secrets';
 import * as homeController from './controllers/home';
 import * as apiController from './controllers/api';
 import * as unmatchedController from './controllers/unmatched';
@@ -35,6 +36,9 @@ app.use(
 );
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+
+// jwt for protected resources
+app.use('/top', jwt({ secret: JWT_SECRET, algorithms: ['RS256'] }));
 
 app.get('/', homeController.index);
 app.get('/top', apiController.getTop);

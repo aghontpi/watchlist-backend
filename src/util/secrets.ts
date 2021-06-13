@@ -1,6 +1,7 @@
 import fs from 'fs';
 
 import dotenv from 'dotenv';
+import jwt from 'express-jwt';
 
 import logger from './logger';
 
@@ -24,6 +25,7 @@ export const MONGODB_COLLECTION = process.env['COLLECTION'] || '';
 export const PORT = process.env['PORT'];
 export const RATE_LIMIT_WINDOW_MS = <number>(process.env['RATE_LIMIT_WINDOW_MS'] || 30);
 export const RATE_LIMIT_MAX = <number>(process.env['RATE_LIMIT_MAX'] || 2);
+export const JWT_SECRET = <jwt.Options['secret']>(process.env['JWT_SECRET'] || '');
 
 if (!MONGODB_URI) {
   if (prod) {
