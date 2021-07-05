@@ -12,6 +12,7 @@ import * as homeController from './controllers/home';
 import * as apiController from './controllers/api';
 import * as unmatchedController from './controllers/unmatched';
 import { limitrequest } from './util/ratelimit';
+import { unauthorizedErrorMiddleware } from './middleware/error.middleware';
 
 const app = express();
 app.set('views', path.join(__dirname, '../views'));
@@ -43,5 +44,9 @@ app.use('/top', jwt({ secret: JWT_SECRET, algorithms: ['RS256'] }));
 app.get('/', homeController.index);
 app.get('/top', apiController.getTop);
 app.get('*', unmatchedController.index);
+
+//change default behaviour of express js to handle error, without stacktrace
+//https://expressjs.com/en/guide/error-handling.html
+app.use(unauthorizedErrorMiddleware);
 
 export default app;
