@@ -11,6 +11,7 @@ import { JWT_SECRET, PORT } from './util/secrets';
 import * as homeController from './controllers/home';
 import * as apiController from './controllers/api';
 import * as unmatchedController from './controllers/unmatched';
+import * as authenticationController from './controllers/auth';
 import { limitrequest } from './util/ratelimit';
 import { unauthorizedErrorMiddleware } from './middleware/error.middleware';
 
@@ -39,7 +40,8 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 // jwt for protected resources
-app.use('/top', jwt({ secret: JWT_SECRET, algorithms: ['RS256'] }));
+app.use('/top', jwt({ secret: JWT_SECRET, algorithms: ['HS512'] }));
+app.use('/authenticate', authenticationController.createToken);
 
 app.get('/', homeController.index);
 app.get('/top', apiController.getTop);
