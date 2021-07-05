@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response } from 'express';
+import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
 import logger from '../util/logger';
@@ -11,8 +11,8 @@ export const createToken = (req: Request, res: Response) => {
     const [id, hash] = [body.id, body.uniqueHash];
     const user = testCaseUsers.filter((user) => user.id === id)[0];
     if (user && user.id === id && user.uniqueHash === hash) {
-      const token = jwt.sign({ user: 'testCaseUser' }, JWT_SECRET, { algorithm: 'HS512', expiresIn: '30m' });
-      res.json(`{token: ${token}}`);
+      const token = { token: jwt.sign({ user: 'testCaseUser' }, JWT_SECRET, { algorithm: 'HS512', expiresIn: '30m' }) };
+      res.json(token);
     } else {
       res.status(400).send('invalid request');
     }
