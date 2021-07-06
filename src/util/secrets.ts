@@ -1,7 +1,6 @@
 import fs from 'fs';
 
 import dotenv from 'dotenv';
-import jwt from 'express-jwt';
 
 import logger from './logger';
 
