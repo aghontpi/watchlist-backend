@@ -97,7 +97,7 @@ describe('GET /top', () => {
   });
 
   const req = request.agent(app);
-  it('shoud get 401 without token', (done) => {
+  it('should get 401 without token', (done) => {
     req.get('/top').expect(401, done);
   });
 
@@ -108,7 +108,7 @@ describe('GET /top', () => {
         .set('Authorization', 'Bearer ' + token)
         .expect(200, done);
     } else {
-      fail('token not created');
+      done(fail('token not created'));
     }
   });
 
@@ -133,7 +133,7 @@ describe('GET /top', () => {
           .set('Authorization', 'Bearer ' + token)
           .expect(statusCode, done);
       } else {
-        fail('token not created');
+        done(fail('token not created'));
       }
     });
   }
