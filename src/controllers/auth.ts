@@ -2,29 +2,15 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
 import logger from '../util/logger';
-import { JWT_SECRET } from '../util/secrets';
-
-export const createToken = (req: Request, res: Response) => {
-  try {
-    // expecting the body to json
-    const body = JSON.parse(JSON.stringify(req.body));
-    const [id, hash] = [body.id, body.uniqueHash];
-    const user = testCaseUsers.filter((user) => user.id === id)[0];
-    if (user && user.id === id && user.uniqueHash === hash) {
-      const token = { token: jwt.sign({ user: 'testCaseUser' }, JWT_SECRET, { algorithm: 'HS512', expiresIn: '30m' }) };
-      res.json(token);
-    } else {
-      res.status(400).send('invalid request');
-    }
-  } catch (e) {
-    logger.debug('error parsing body', e);
-    res.status(400).send('invalid request');
-  }
-};
+import { ENVIRONMENT, JWT_SECRET } from '../util/secrets';
 
 // hash is just sha512 hash of id
+interface User {
+  id: string;
+  uniqueHash: string;
+}
 
-const testCaseUsers: { id: string; uniqueHash: string }[] = [
+const testCaseUsers: User[] = [
   {
     id: 'testCaseUser',
     uniqueHash:
@@ -32,3 +18,36 @@ const testCaseUsers: { id: string; uniqueHash: string }[] = [
       '42721f71e85ea3bfa24e21543e6101c445c989254cdbd4',
   },
 ];
+
+export const createToken = (req: Request, res: Response) => {
+  try {
+    // expecting the body to json
+    const body = JSON.parse(JSON.stringify(req.body));
+    const [id, hash] = [body.id, body.uniqueHash];
+
+    // enable test case user only for development
+    let users: User[] | undefined;
+    if (ENVIRONMENT === 'development') {
+      users = testCaseUsers;
+    } else {
+      // db connection logic or users defined from file from production
+      users = undefined;
+    }
+    if (users) {
+      const user = users.filter((user) => user.id === id)[0];
+      if (user && user.id === id && user.uniqueHash === hash) {
+        const token = {
+          token: jwt.sign({ user: 'testCaseUser' }, JWT_SECRET, { algorithm: 'HS512', expiresIn: '30m' }),
+        };
+        res.json(token);
+      } else {
+        res.status(400).send('invalid request');
+      }
+    } else {
+      res.status(503).send('Service Unavaiable');
+    }
+  } catch (e) {
+    logger.debug('error parsing body', e);
+    res.status(400).send('invalid request');
+  }
+};
