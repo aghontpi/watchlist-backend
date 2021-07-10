@@ -3,6 +3,7 @@ import { assert } from 'console';
 import request from 'supertest';
 
 import app from '../src/app';
+import { testCaseUser } from '../src/controllers/auth';
 
 describe('GET /random', () => {
   it('should return redirect', (done) => {
@@ -28,32 +29,29 @@ describe('GET /top, accessing without token', () => {
   });
 });
 
-const testUser = {
-  id: 'testCaseUser',
-  uniqueHash:
-    '382cd78f2fcd04561940af9d9826c353fe75c80433287e757dc75c3d80b629caa6558' +
-    '7496317d3de7942721f71e85ea3bfa24e21543e6101c445c989254cdbd4',
-};
+const testUser = testCaseUser;
 
 describe('POST /authenticate, create token', () => {
-  it('should return 400 with empty user', (done) => {
-    request(app).post('/authenticate').set('Content-Type', 'application/json').send({}).expect(400, done);
+  process.env.NODE_ENV = 'test';
+
+  it('should return 401 with empty user', (done) => {
+    request(app).post('/authenticate').set('Content-Type', 'application/json').send({}).expect(401, done);
   });
 
-  it('should return 400 with invalid id', (done) => {
+  it('should return 401 with invalid id', (done) => {
     request(app)
       .post('/authenticate')
       .set('Content-Type', 'application/json')
       .send({ id: testUser.id + 'invalid', uniqueHash: testUser.uniqueHash })
-      .expect(400, done);
+      .expect(401, done);
   });
 
-  it('should return 400 with invalid uniqueHash', (done) => {
+  it('should return 401 with invalid uniqueHash', (done) => {
     request(app)
       .post('/authenticate')
       .set('Content-Type', 'application/json')
       .send({ id: testUser.id, uniqueHash: testUser.uniqueHash + 'invalid' })
-      .expect(400, done);
+      .expect(401, done);
   });
 
   it('should return 400 with invalid json', (done) => {
@@ -77,11 +75,21 @@ describe('POST /authenticate, create token', () => {
         return done();
       });
   });
+
+  // change back to production to test hardcoded users are invalid in production
+  it('should return 401 with valid user but env is production', (done) => {
+    process.env.NODE_ENV = 'production';
+    request(app).post('/authenticate').set('Content-Type', 'application/json').send(testUser).expect(401, done);
+  });
 });
 
 describe('GET /top', () => {
   let token = '';
+
   beforeAll(() => {
+    // to get access to test users
+    process.env.NODE_ENV = 'test';
+
     // create token for accessing secured content
     req
       .post('/authenticate')
@@ -93,6 +101,9 @@ describe('GET /top', () => {
           assert(res.body.token);
           token = res.body.token;
         }
+
+        // revert the mode after creating authentication token
+        process.env.NODE_ENV = 'production';
       });
   });
 
