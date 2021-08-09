@@ -16,6 +16,7 @@ export const getTop = async (_: Request, res: Response) => {
   client.connect(async (err) => {
     if (err) {
       logger.debug('error connecting to db');
+      res.status(503).send('Service Unavailable');
       return;
     }
     // check if the data is present in local chache first

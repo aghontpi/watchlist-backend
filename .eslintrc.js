@@ -11,7 +11,7 @@ module.exports = {
     'no-nested-ternary': 2,
     camelcase: 2,
     'import/no-extraneous-dependencies': ['error', { packageDir: __dirname }],
-    'import/extensions': ['error', 'never', { svg: 'always' }],
+    'import/extensions': ['error', 'never', { svg: 'always', middleware:"always" }],
     'import/no-named-as-default-member': 2,
     'import/order': ['error', { 'newlines-between': 'always' }],
     'import/no-duplicates': 2,

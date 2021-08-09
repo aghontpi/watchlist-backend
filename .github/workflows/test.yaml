@@ -1,8 +1,6 @@
 name: build & test-cases
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 

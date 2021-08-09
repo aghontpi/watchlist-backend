@@ -5,12 +5,15 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import lusca from 'lusca';
+import jwt from 'express-jwt';
 
-import { PORT } from './util/secrets';
+import { JWT_SECRET, PORT } from './util/secrets';
 import * as homeController from './controllers/home';
 import * as apiController from './controllers/api';
 import * as unmatchedController from './controllers/unmatched';
+import * as authenticationController from './controllers/auth';
 import { limitrequest } from './util/ratelimit';
+import { unauthorizedErrorMiddleware } from './middleware/error.middleware';
 
 const app = express();
 app.set('views', path.join(__dirname, '../views'));
@@ -36,8 +39,16 @@ app.use(
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
+// jwt for protected resources
+app.use('/top', jwt({ secret: JWT_SECRET, algorithms: ['HS512'] }));
+app.use('/authenticate', authenticationController.createToken);
+
 app.get('/', homeController.index);
 app.get('/top', apiController.getTop);
 app.get('*', unmatchedController.index);
+
+//change default behaviour of express js to handle error, without stacktrace
+//https://expressjs.com/en/guide/error-handling.html
+app.use(unauthorizedErrorMiddleware);
 
 export default app;
