@@ -4,7 +4,10 @@ import { FIREBASE_SERVICE_ACCOUNT, FIREBASE_DATABASE } from '../util/secrets';
 export const serviceAccount = require(FIREBASE_SERVICE_ACCOUNT);
 
 if (FIREBASE_SERVICE_ACCOUNT === '' || FIREBASE_DATABASE === '') {
-  throw new Error('Please configure env "FIREBASE_DATABASE_URL" & "FIREBASE_SERVICE_ACCOUNT"');
+  throw new Error(process.env.NODE_ENV);
+  if (process.env.NODE_ENV !== 'test') {
+    throw new Error('Please configure env "FIREBASE_DATABASE_URL" & "FIREBASE_SERVICE_ACCOUNT"');
+  }
 }
 
 // reference
