@@ -8,7 +8,7 @@ import lusca from 'lusca';
 import jwt from 'express-jwt';
 import * as admin from 'firebase-admin';
 
-import { FIREBASE_DATABASE, JWT_SECRET, PORT } from './util/secrets';
+import { FIREBASE_DATABASE, JWT_SECRET, PORT, USERVERIFICATION_THROUGH_FIREBASE } from './util/secrets';
 import * as homeController from './controllers/home';
 import * as apiController from './controllers/api';
 import * as unmatchedController from './controllers/unmatched';
@@ -41,10 +41,12 @@ app.use(
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: FIREBASE_DATABASE,
-});
+// firebase admin sdk initialization,
+parseInt(USERVERIFICATION_THROUGH_FIREBASE) &&
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: FIREBASE_DATABASE,
+  });
 
 // jwt for protected resources
 app.use('/top', jwt({ secret: JWT_SECRET, algorithms: ['HS512'] }));

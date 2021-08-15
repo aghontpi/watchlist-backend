@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import * as admin from 'firebase-admin';
 
 import logger from '../util/logger';
-import { ENVIRONMENT, JWT_SECRET } from '../util/secrets';
+import { ENVIRONMENT, JWT_SECRET, USERVERIFICATION_THROUGH_FIREBASE } from '../util/secrets';
 
 // hash is just sha512 hash of id
 interface User {
@@ -30,7 +30,7 @@ export const createToken = (req: Request, res: Response) => {
 
     if (ENVIRONMENT === 'development' || process.env.NODE_ENV == 'test') {
       testUsers = [testCaseUser];
-    } else if (id) {
+    } else if (id && parseInt(USERVERIFICATION_THROUGH_FIREBASE)) {
       firebaseToken = id; // verify user with firebase id token,
     }
 

@@ -1,11 +1,10 @@
-import { FIREBASE_SERVICE_ACCOUNT, FIREBASE_DATABASE } from '../util/secrets';
+import { FIREBASE_SERVICE_ACCOUNT, FIREBASE_DATABASE, USERVERIFICATION_THROUGH_FIREBASE } from '../util/secrets';
 
 //eslint-disable-next-line @typescript-eslint/no-var-requires
 export const serviceAccount = require(FIREBASE_SERVICE_ACCOUNT);
 
 if (FIREBASE_SERVICE_ACCOUNT === '' || FIREBASE_DATABASE === '') {
-  throw new Error(process.env.NODE_ENV);
-  if (process.env.NODE_ENV !== 'test') {
+  if (parseInt(USERVERIFICATION_THROUGH_FIREBASE)) {
     throw new Error('Please configure env "FIREBASE_DATABASE_URL" & "FIREBASE_SERVICE_ACCOUNT"');
   }
 }

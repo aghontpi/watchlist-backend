@@ -77,7 +77,7 @@ describe('POST /authenticate, create token', () => {
   });
 
   // change back to production to test hardcoded users are invalid in production
-  it('should return 401 with valid user but env is production', (done) => {
+  it('should return 401 with valid user when env is production', (done) => {
     process.env.NODE_ENV = 'production';
     request(app).post('/authenticate').set('Content-Type', 'application/json').send(testUser).expect(401, done);
   });
@@ -89,6 +89,7 @@ describe('GET /top', () => {
   beforeAll(() => {
     // to get access to test users
     process.env.NODE_ENV = 'test';
+    jest.setTimeout(10000);
 
     // create token for accessing secured content
     req
