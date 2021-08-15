@@ -54,6 +54,7 @@
     "express-handlebars": "^5.2.0",
     "express-jwt": "^6.0.0",
     "express-rate-limit": "^5.2.3",
+    "firebase-admin": "^9.11.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2",
     "morgan": "^1.10.0",

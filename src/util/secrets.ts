@@ -25,6 +25,10 @@ export const PORT = process.env['PORT'];
 export const RATE_LIMIT_WINDOW_MS = <number>(process.env['RATE_LIMIT_WINDOW_MS'] || 30);
 export const RATE_LIMIT_MAX = <number>(process.env['RATE_LIMIT_MAX'] || 2);
 export const JWT_SECRET = <string>(process.env['JWT_SECRET'] || '');
+export const FIREBASE_DATABASE = <string>(process.env['FIREBASE_DATABASE_URL'] || '');
+export const FIREBASE_SERVICE_ACCOUNT = <string>(process.env['FIREBASE_SERVICE_ACCOUNT'] || '');
+export const USERVERIFICATION_THROUGH_FIREBASE = <string>(process.env[''] || '0');
+false;
 
 if (!MONGODB_URI) {
   if (prod) {
